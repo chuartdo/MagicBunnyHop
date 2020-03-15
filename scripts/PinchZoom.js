@@ -53,8 +53,8 @@ TouchGestures.onPan(plane).subscribe(function (gesture) {
   const gestureTransform = Scene.unprojectToFocalPlane(gesture.location);
 
   // Update the position of the plane
-  planeTransform.x = gestureTransform.x;
   planeTransform.y = gestureTransform.y;
+  planeTransform.z = gestureTransform.z;
  
 
 });
@@ -66,9 +66,9 @@ TouchGestures.onPan(plane).subscribe(function (gesture) {
 // Subscribe to pinch gestures on the plane
 TouchGestures.onPinch(plane).subscribe(function (gesture) {
 
-  if (planeTransform.scaleX < 0.4  || planeTransform.scaleX > 2  ) {
-    return;
-  }
+ // if (planeTransform.scaleX < 0.2  || planeTransform.scaleX > 2  ) {
+ //   return;
+ // }
   // Store the last known x and y-axis scale values of the plane
   const lastScaleX = planeTransform.scale.x.pinLastValue();
   const lastScaleY = planeTransform.scale.y.pinLastValue();

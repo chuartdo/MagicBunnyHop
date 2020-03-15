@@ -5,7 +5,7 @@ const Scene = require('Scene');
 const Time = require('Time') ;
 const CANNON = require('cannon');
 //const TouchGestures = require('TouchGestures');
-//const Materials = require('Materials');
+const Materials = require('Materials');
 
 
 class CANNON_PHYSICS
@@ -119,16 +119,20 @@ var objects = [];
 
 // Find and associate up to a dozen egg Mesh data with physics body
 //const material = Materials.get('defaultMaterial0');
-//const material2 = Materials.get('defaultMaterial1');
+const eggMaterials =[] 
+eggMaterials[0] = Materials.get('pink');
+eggMaterials[1] = Materials.get('blue');
+eggMaterials[2] = Materials.get('stripe');
+eggMaterials[3] = Materials.get('yellow');
+
 for (let i=0; i< 12; i++) {
     try {
-         objects[i] =  Scene.root.find('egg'+i.toString());
 
-        // objects[i].material = material2;
-        // Set the initial text value
- 
-     
-        
+         objects[i] =  Scene.root.find('egg'+i.toString());
+        // Change Random material
+            var eggMaterial =  objects[i].child('Sphere').child('Sphere');
+            let index = Math.round(Math.random()*(eggMaterials.length-1)); 
+            eggMaterial.material = eggMaterials[index];
      }
     catch (err) {
         break;
@@ -138,7 +142,7 @@ for (let i=0; i< 12; i++) {
  let cannon_phy = new CANNON_PHYSICS( objects )
 
 cannon_phy.create_rigid_body( {
-   id:0, shape: 0, mass: 0, x: 0, y: -0.4, z: 0, w: 50, h:  0.2, d: 50, 
+   id:0, shape: 0, mass: 0, x: 0, y: -0.4, z: 0, w: 60, h:  0.4, d: 60, 
 } )
 
 
@@ -157,10 +161,6 @@ for ( var i=0 ; i<objects.length; i++ ) {
             w: box_size*0.5, h: box_size*1, d: box_size*1,     
         }
         cannon_phy.create_rigid_body(param);
-            // Place objects
-            objects[meshIndex].transform.x =  param.x;
-            objects[meshIndex].transform.y = param.y;
-            objects[meshIndex].transform.z =  param.z;
          
 }
 
