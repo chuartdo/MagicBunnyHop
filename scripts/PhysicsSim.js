@@ -1,12 +1,13 @@
  
 // Scripts to animate dropping eggs
+// CC @chuartdo
 
 const Scene = require('Scene');
 const Time = require('Time') ;
 const CANNON = require('cannon');
-//const TouchGestures = require('TouchGestures');
+const TouchGestures = require('TouchGestures');
 const Materials = require('Materials');
-
+const Patches = require('Patches');
 
 class CANNON_PHYSICS
 {
@@ -50,7 +51,7 @@ class CANNON_PHYSICS
             shape: shapeType,
             position:   new CANNON.Vec3( _arg.x, _arg.y, _arg.z ),
             material:   new CANNON.Material( { friction: 0.1, } ), 
-            linearDamping : Math.random()
+            linearDamping : (Math.random() * 0.4 + 0.3)
         } )
 
         
@@ -133,6 +134,13 @@ for (let i=0; i< 12; i++) {
             var eggMaterial =  objects[i].child('Sphere').child('Sphere');
             let index = Math.round(Math.random()*(eggMaterials.length-1)); 
             eggMaterial.material = eggMaterials[index];
+
+        // Action when eggs are tapped
+            TouchGestures.onTap(objects[i] ).subscribe(function () {
+                floating = false;
+            
+            });
+
      }
     catch (err) {
         break;
@@ -147,7 +155,6 @@ cannon_phy.create_rigid_body( {
 
 
 // Arrange initial location of eggs in world space
-
 const box_size = 0.1
 for ( var i=0 ; i<objects.length; i++ ) {
  
@@ -164,13 +171,33 @@ for ( var i=0 ; i<objects.length; i++ ) {
          
 }
 
+var floating = true;
 
-
+// Float and drop the eggs by changing gravity at interval
+const FLOAT_GRAVITY = 5
 Time.setTimeout(() => {
-    cannon_phy.stopSimulation( );
-  }, 300);
+    var gravity = FLOAT_GRAVITY;
+
+    Time.setInterval( ()=> {
+        var count = Patches.getScalarValue('HatTapCount').lastValue;
+
+        if  (count > 2)
+                floating = false;
+        if (count > 8) {
+            floating = true;
+            gravity = FLOAT_GRAVITY;
+        }
+        
+        if (floating && Math.abs(gravity)==FLOAT_GRAVITY) {
+            gravity = -gravity;
+        } else {
+            gravity = -9.8;
+        }
+        cannon_phy.cannon_world.gravity.set( 0, gravity, 0 ); }
+     , 900);
+
+}, 7000);
 
 
-  
 cannon_phy.updatePhysics();
  

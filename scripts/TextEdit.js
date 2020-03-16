@@ -4,10 +4,6 @@ const Scene = require('Scene');
 
 const GameState = 0;
 
-Patches.setBooleanValue('myBoolean',true);
-
-
-
 
 // Locate the font in the Assets and the text in the Scene
 var msgText = Scene.root.find('helpText');
@@ -17,6 +13,7 @@ var msgText = Scene.root.find('helpText');
  
 // Set the initial text value
  
+/*
 // Subscribe to tap gestures
 TouchGestures.onTap(msgText).subscribe(function () {
 
@@ -24,9 +21,10 @@ TouchGestures.onTap(msgText).subscribe(function () {
   var score = Patches.getScalarValue('HatTapCount').lastValue;
 
   if ( score > 1 ) {
-    msgText.text="Got " + score.toString() + "  Eggs"; 
-    Diagnostics.log(msgText.text);
+    msgText.text="** " + score.toString() + "  **"; 
+  //  Diagnostics.log(msgText.text);
   }
 
 });
 
+*/
