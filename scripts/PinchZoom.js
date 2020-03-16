@@ -22,6 +22,7 @@ const rabbit = Scene.root.find('Rabbit');
 // Change the material applied to the plane when the plane is tapped
 //==============================================================================
 
+/*
 // Locate the materials in the Assets
 const material = Materials.get('defaultMaterial0');
 const material2 = Materials.get('defaultMaterial1');
@@ -37,7 +38,7 @@ TouchGestures.onTap(plane).subscribe(function (gesture) {
   }
 
 });
-
+*/
 //==============================================================================
 // Move the plane across the screen when dragging it with a finger
 //==============================================================================
@@ -54,7 +55,7 @@ TouchGestures.onPan(plane).subscribe(function (gesture) {
 
   // Update the position of the plane
   planeTransform.y = gestureTransform.y;
-  planeTransform.z = gestureTransform.z;
+  planeTransform.x = gestureTransform.x;
  
 
 });
@@ -65,10 +66,11 @@ TouchGestures.onPan(plane).subscribe(function (gesture) {
 
 // Subscribe to pinch gestures on the plane
 TouchGestures.onPinch(plane).subscribe(function (gesture) {
-
- // if (planeTransform.scaleX < 0.2  || planeTransform.scaleX > 2  ) {
- //   return;
- // }
+/*
+  if (planeTransform.scaleX < 0.2   ) {
+      return;
+  }
+  */
   // Store the last known x and y-axis scale values of the plane
   const lastScaleX = planeTransform.scale.x.pinLastValue();
   const lastScaleY = planeTransform.scale.y.pinLastValue();
